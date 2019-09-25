@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rtstjkx.jkx.repository.EnergyMapper">
+
+    <resultMap id="EnergyDayMap" type="com.rtstjkx.jkx.entity.EnergyDay">
+        <result property="energyDay" column="energyDaySum"/>
+        <result property="dateTime" column="dateTime"/>
+        <result property="PCS_Code" column="PCS_Code"/>
+        <result property="PCS_Name" column="PCS_Name"/>
+    </resultMap>
+
+    <resultMap id="EnergyMonthMap" type="com.rtstjkx.jkx.entity.EnergyMonth">
+        <result property="energyMonth" column="energyMonthSum"/>
+        <result property="dateTime" column="dateTime"/>
+        <result property="PCS_Code" column="PCS_Code"/>
+        <result property="PCS_Name" column="PCS_Name"/>
+    </resultMap>
+    <resultMap id="EnergyYearMap" type="com.rtstjkx.jkx.entity.EnergyYear">
+        <result property="energyYear" column="energyYearSum"/>
+        <result property="dateTime" column="dateTime"/>
+        <result property="PCS_Code" column="PCS_Code"/>
+        <result property="PCS_Name" column="PCS_Name"/>
+    </resultMap>
+    <!--根据站点和时间日期查询日能耗详情-->
+    <select id="getEnergyDayByWS" parameterType="java.util.HashMap" resultType="com.rtstjkx.jkx.entity.EnergyDay">
+        select id,WS_Code,energyDay,dateTime
+                from energyDay
+                where WS_Code = #{WS_Code} and dateTime = #{dateTime}
+    </select>
+    <!--根据站点和时间日期查询月能耗详情-->
+    <select id="getEnergyMonthByWS" parameterType="java.util.HashMap" resultType="com.rtstjkx.jkx.entity.EnergyMonth">
+        select id,WS_Code,energyMonth,dateTime
+                from energyMonth
+                where WS_Code = #{WS_Code} and dateTime = #{dateTime}
+    </select>
+    <!--根据站点和时间日期查询年能耗详情-->
+    <select id="getEnergyYearByWS" parameterType="java.util.HashMap" resultType="com.rtstjkx.jkx.entity.EnergyYear">
+        select id,WS_Code,energyMonth,dateTime
+                from energyYear
+                where WS_Code = #{WS_Code} and dateTime = #{dateTime}
+    </select>
+    <!--根据派出所和时间日期查询派出所日能耗详情-->
+    <select id="getEnergyDayByPCS" parameterType="java.util.HashMap" resultMap="EnergyDayMap">
+        select SUM(energyDay.energyDay) as energyDaySum,energyDay.dateTime,c_pcs.PCS_Code as PCS_Code ,c_pcs.PCS_Name as PCS_Name
+                from c_worksite
+			    LEFT JOIN c_pcs ON c_worksite.WS_SysCode = c_pcs.PCS_Code
+			    RIGHT JOIN energyDay ON c_worksite.WS_Code = energyDay.WS_Code
+                where c_pcs.PCS_Code= #{PCS_Code} AND energyDay.dateTime = #{dateTime}
+    </select>
+    <!--根据派出所和时间日期查询派出所月能耗详情-->
+    <select id="getEnergyMonthByPCS" parameterType="java.util.HashMap" resultMap="EnergyMonthMap">
+        select SUM(energyMonth.energyMonth) as energyMonthSum,energyMonth.dateTime,c_pcs.PCS_Code as PCS_Code,c_pcs.PCS_Name as PCS_Name
+                from c_worksite
+			    LEFT JOIN c_pcs ON c_worksite.WS_SysCode = c_pcs.PCS_Code
+			    RIGHT JOIN energyMonth ON c_worksite.WS_Code = energyMonth.WS_Code
+                where c_pcs.PCS_Code= #{PCS_Code} AND energyMonth.dateTime = #{dateTime}
+    </select>
+    <!--根据派出所和时间日期查询派出所年能耗详情-->
+    <select id="getEnergyYearByPCS" parameterType="java.util.HashMap" resultMap="EnergyYearMap">
+        select SUM(energyYear.energyYear) as energyYearSum,energyYear.dateTime,c_pcs.PCS_Code as PCS_Code,c_pcs.PCS_Name as PCS_Name
+                from c_worksite
+			    LEFT JOIN c_pcs ON c_worksite.WS_SysCode = c_pcs.PCS_Code
+			    RIGHT JOIN energyYear ON c_worksite.WS_Code = energyYear.WS_Code
+                where c_pcs.PCS_Code= #{PCS_Code} AND energyYear.dateTime = #{dateTime}
+    </select>
+    <!--根据时间日期查询全区日能耗详情-->
+    <select id="getEnergyDay" parameterType="java.util.HashMap" resultMap="EnergyDayMap">
+        select SUM(energyDay.energyDay) as energyDaySum,energyDay.dateTime
+                from energyDay
+                where energyDay.dateTime = #{dateTime}
+    </select>
+    <!--根据时间日期查询全区月能耗详情-->
+    <select id="getEnergyMonth" parameterType="java.util.HashMap" resultMap="EnergyMonthMap">
+        select SUM(energyMonth.energyMonth) as energyMonthSum,energyMonth.dateTime
+                from energyMonth
+                where energyMonth.dateTime = #{dateTime}
+    </select>
+    <!--根据时间日期查询全区年能耗详情-->
+    <select id="getEnergyYear" parameterType="java.util.HashMap" resultMap="EnergyYearMap">
+        select SUM(energyYear.energyYear) as energyYearSum,energyYear.dateTime
+                from energyYear
+                where energyYear.dateTime = #{dateTime}
+    </select>
+</mapper>

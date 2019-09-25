@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rtstjkx.jkx.repository.DataMapper">
+    <sql id="allColumns">
+        `DS_ID`,`WS_Code`,`DS_Jldy` ,`DS_Jldl`,`DS_Jldn`,`DS_DC12dy`,`DS_DC24dy`,
+        `DS_WD`,`DS_SD`,`DS_ZYQX`,`DS_QHQX`,`DS_GMADC`,`DS_SJADC`,`DS_ZTBYTEA`,
+        `DS_ZTBYTEB`,`DS_ZTBYTEC`,`DS_PMA`,`DS_PMB`,`DS_ZS`,`DS_YL`,`DS_FL`,
+        `DS_YLA`,`DS_YLB`,`DS_YLC`,`DS_YLD`,`DS_DateTime`
+    </sql>
+    <resultMap id="Dsignal" type="com.rtstjkx.jkx.entity.Dsignal">
+        <result property="DS_ID" column="DS_ID"/>
+        <result property="WS_Code" column="WS_Code"/>
+        <result property="DS_Jldy" column="DS_Jldy"/>
+        <result property="DS_Jldl" column="DS_Jldl"/>
+        <result property="DS_Jldn" column="DS_Jldn"/>
+        <result property="DS_DC12dy" column="DS_DC12dy"/>
+        <result property="DS_DC24dy" column="DS_DC24dy"/>
+        <result property="DS_WD" column="DS_WD"/>
+        <result property="DS_SD" column="DS_SD"/>
+        <result property="DS_ZYQX" column="DS_ZYQX"/>
+        <result property="DS_QHQX" column="DS_QHQX"/>
+        <result property="DS_GMADC" column="DS_GMADC"/>
+        <result property="DS_SJADC" column="DS_SJADC"/>
+        <result property="DS_ZTBYTEA" column="DS_ZTBYTEA"/>
+        <result property="DS_ZTBYTEB" column="DS_ZTBYTEB"/>
+        <result property="DS_ZTBYTEC" column="DS_ZTBYTEC"/>
+        <result property="DS_PMA" column="DS_PMA"/>
+        <result property="DS_PMB" column="DS_PMB"/>
+        <result property="DS_ZS" column="DS_ZS"/>
+        <result property="DS_YL" column="DS_YL"/>
+        <result property="DS_FL" column="DS_FL"/>
+        <result property="DS_DateTime" column="DS_DateTime"/>
+    </resultMap>
+    <!--根据派出所下某个站点的历史数据 -->
+    <select id="selectData" resultMap="Dsignal">
+        select <include refid="allColumns"/>
+              from c_dsignal where WS_Code = #{WS_Code}
+              order by DS_DateTime desc
+    </select>
+
+    <!--统计报表时查询各站点的交流电能值-->
+    <select id="selectEnergy" resultMap="Dsignal">
+        SELECT c_dsignal.DS_ID,c_dsignal.WS_Code,c_dsignal.DS_Jldy,c_dsignal.DS_Jldl,c_dsignal.DS_Jldn,c_dsignal.DS_DateTime
+              from c_dsignal
+              where DS_DateTime= #{DS_DateTime} GROUP BY WS_Code ORDER BY WS_Code
+    </select>
+
+    <!--统计每天的能耗值后插入到energyDay表中-->
+    <insert id="insertEnergyDay" >
+        insert into energyDay(WS_Code,energyDay,dateTime) values(#{WS_Code},#{energyDay},#{dateTime})
+    </insert>
+    <!--统计每月的能耗值后插入到energyMonth表中-->
+    <insert id="insertEnergyMonth">
+        insert into energyMonth(WS_Code,energyMonth,dateTime) values(#{WS_Code},#{energyMonth},#{dateTime})
+    </insert>
+    <!--统计每年的能耗值后插入到energyYear表中-->
+    <insert id="insertEnergyYear">
+        insert into energyYear(WS_Code,energyYear,dateTime) values(#{WS_Code},#{energyYear},#{dateTime})
+    </insert>
+</mapper>

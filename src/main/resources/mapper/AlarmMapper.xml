@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rtstjkx.jkx.repository.AlarmMapper">
+    <resultMap id="AlarmsMap" type="com.rtstjkx.jkx.entity.Alarm">
+        <result column="ID" property="id"/>
+        <result column="BITValueA" property="BITValueA"/>
+        <result column="BITCode" property="BITCode"/>
+        <result column="BITValueB" property="BITValueB"/>
+        <result column="BITValueC" property="BITValueC"/>
+        <result column="WS_Code" property="WS_Code"/>
+        <result column="alarmTime" property="alarmTime"/>
+    </resultMap>
+    <!--查询当前时间向前推移20秒的告警数据-->
+    <select id="getAlarmList"  resultMap="AlarmsMap">
+        select ID,BITcode,WS_Code,BITValueA,BITValueB,BITValueC,AlarmTime
+              from c_alarm
+              where AlarmTime>DATE_SUB(NOW(), INTERVAL 20 SECOND)
+    </select>
+    <select id="getAlarmByPCS" resultMap="AlarmsMap">
+        select c_alarm.ID,c_alarm.BITcode,c_alarm.WS_Code,c_alarm.BITValueA,c_alarm.BITValueB,c_alarm.BITValueC,c_alarm.AlarmTime
+			from c_worksite
+			LEFT JOIN c_pcs ON c_worksite.WS_SysCode = c_pcs.PCS_Code
+			RIGHT JOIN c_alarm ON c_worksite.WS_Code = c_alarm.WS_Code
+            where c_pcs.PCS_Code= #{PCS_Code} AND AlarmTime>DATE_SUB(NOW(), INTERVAL 20 SECOND)
+    </select>
+</mapper>
