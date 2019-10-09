@@ -4,6 +4,10 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+
+/**
+ * 每日能耗信息
+ */
 @Data
 public class EnergyDay implements Serializable {
     private Integer id;

@@ -3,6 +3,9 @@ package com.rtstjkx.jkx.entity;
 import lombok.Data;
 import java.io.Serializable;
 
+/**
+ * 告警信息
+ */
 @Data
 public class Alarm implements Serializable {
     private Integer id;

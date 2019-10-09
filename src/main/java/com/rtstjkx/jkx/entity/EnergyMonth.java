@@ -4,6 +4,10 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+
+/**
+ * 每月能耗信息
+ */
 @Data
 public class EnergyMonth implements Serializable {
     private Integer id;
