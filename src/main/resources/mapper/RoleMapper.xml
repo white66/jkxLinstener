@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rtstjkx.jkx.repository.systemInfo.RoleMapper">
+    <sql  id="allcolumn">
+        Id,sysRoleAva,sysRoleDes,sysRoleName
+    </sql>
+    <select id="findRoleByUserId" parameterType="Integer" resultType="com.rtstjkx.jkx.entity.systemInfo.SysRole">
+        select <include refid="allcolumn"/>
+                from sysrole
+                left join sysuser_role on sysrole.Id = sysuser_role.RoleId
+                left join sysuser on sysuser.Id = sysuser_role.userId
+                where 1=1
+                and  sysuser.Id = #{userId}
+    </select>
+</mapper>

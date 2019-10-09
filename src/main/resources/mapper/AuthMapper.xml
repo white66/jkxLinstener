@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rtstjkx.jkx.repository.systemInfo.AuthMapper">
+    <sql id="column">
+      sysAuthUrl
+    </sql>
+    <select id="findAuthByRoleId"  parameterType="list" resultType="string">
+      select <include refid="column"/>
+          from sysauthinfo
+          left join sysrole_auth on sysrole_auth.authId = sysauthinfo.id
+          left join sysrole on sysrole.id = sysrole_auth.roleId
+          where sysrole.id =
+          <foreach collection="roleIds" item="id" open="(" close=")" separator=",">
+              #{id}
+          </foreach>
+    </select>
+</mapper>
