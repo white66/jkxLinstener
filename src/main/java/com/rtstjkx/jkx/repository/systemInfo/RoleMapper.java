@@ -1,7 +1,6 @@
 package com.rtstjkx.jkx.repository.systemInfo;
 
-import com.rtstjkx.jkx.entity.systemInfo.SysRole;
-import org.apache.ibatis.annotations.Param;
+import com.rtstjkx.jkx.entity.systemInfo.Role;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,5 +12,5 @@ public interface RoleMapper {
      * @param userId
      * @return
      */
-    List<SysRole>findRoleByUserId(Integer userId);
+    List<Role> findRoleByUserId(Integer userId);
 }

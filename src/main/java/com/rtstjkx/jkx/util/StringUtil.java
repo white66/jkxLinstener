@@ -67,7 +67,7 @@ public class StringUtil {
                 int t = (number & 0x80000000 >>> i) >>> (31 - i);
                 sb.append(t);
             }
-        }else if(number==0){
+        } else if(number==0){
             sb.append("00000000");
         }
         while(sb.length()<8){

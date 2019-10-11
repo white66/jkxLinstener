@@ -1,78 +1,71 @@
 package com.rtstjkx.jkx.controller;
 
-import com.rtstjkx.jkx.common.StatusEnums;
-import com.rtstjkx.jkx.entity.systemInfo.SysUser;
-import com.rtstjkx.jkx.service.HelloService;
-import com.rtstjkx.jkx.util.ResponseCode;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.DisabledAccountException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.subject.Subject;
+import com.rtstjkx.jkx.bean.CacheUser;
+import com.rtstjkx.jkx.bean.ResponseCode;
+import com.rtstjkx.jkx.entity.systemInfo.User;
+import com.rtstjkx.jkx.service.serviceImpl.UserServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+@Slf4j
 @RestController
 public class LoginController {
+    @Autowired
+    UserServiceImpl userService;
+    @Autowired
+    ResponseCode responseCode;
     /**
      * 登陆操作
      * @param user
      * @return
      */
     @PostMapping("/login")
-    public ResponseCode login(SysUser user){
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(user.getUserAccount(), user.getUserPassword());
-        try {
-            // 登录验证
-            subject.login(token);
-            return ResponseCode.success();
-        } catch (UnknownAccountException e) {
-            return ResponseCode.error(StatusEnums.ACCOUNT_UNKNOWN);
-        } catch (DisabledAccountException e) {
-            return ResponseCode.error(StatusEnums.ACCOUNT_IS_DISABLED);
-        } catch (IncorrectCredentialsException e) {
-            return ResponseCode.error(StatusEnums.INCORRECT_CREDENTIALS);
-        } catch (Throwable e) {
-            e.printStackTrace();
-            return ResponseCode.error(StatusEnums.SYSTEM_ERROR);
+    public ResponseCode login(User user){
+        log.warn("进入登录....");
+        String userName = user.getUserName();
+        String passWord = user.getPassWord();
+        if(null==userName||" ".equals(userName)){
+            return  responseCode.failure("用户名不能为空！");
         }
+        if(null==passWord||" ".equals(passWord)){
+            return responseCode.failure("密码不能为空！");
+        }
+        CacheUser loginUser =  userService.login(userName,passWord);
+        // 登录成功返回用户信息
+        return responseCode.success("登录成功！", loginUser);
     }
-    @GetMapping("/login")
-    public ResponseCode login() {
-        return ResponseCode.error(StatusEnums.NOT_LOGIN_IN);
-    }
-
-    @GetMapping("/auth")
-    public String auth() {
-        return "已成功登录";
-    }
-
-    @GetMapping("/role")
-    @RequiresRoles("vip")
-    public String role() {
-        return "测试Vip角色";
-    }
-
-    @GetMapping("/permission")
-    @RequiresPermissions(value = {"add", "update"}, logical = Logical.AND)
-    public String permission() {
-        return "测试Add和Update权限";
+    /**
+     * description: 登出
+     * create time: 2019/6/28 17:37
+     */
+    @GetMapping("/logout")
+    public ResponseCode logOut() {
+        userService.logout();
+        return responseCode.success("登出成功！");
     }
 
     /**
-     * 登出
+     * 未登录，shiro应重定向到登录界面，此处返回未登录状态信息由前端控制跳转页面
+     * create time: 2019/7/3 14:53
      * @return
      */
-    @GetMapping("/logout")
-    public ResponseCode logout() {
-        SecurityUtils.getSubject().logout();
-        return ResponseCode.success();
+    @RequestMapping("/un_auth")
+    public ResponseCode unAuth() {
+        return responseCode.failure(HttpStatus.UNAUTHORIZED, "用户未登录！", null);
+    }
+
+    /**
+     * 未授权，无权限，此处返回未授权状态信息由前端控制跳转页面
+     * create time: 2019/7/3 14:53
+     * @return
+     */
+    @RequestMapping("/unauthorized")
+    public ResponseCode unauthorized() {
+        return responseCode.failure(HttpStatus.FORBIDDEN, "用户无权限！", null);
     }
 }

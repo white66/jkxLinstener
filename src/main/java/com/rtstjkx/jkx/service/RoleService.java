@@ -1,6 +1,7 @@
-package com.rtstjkx.jkx.service.systemInfo;
+package com.rtstjkx.jkx.service;
 
-import com.rtstjkx.jkx.entity.systemInfo.SysRole;
+
+import com.rtstjkx.jkx.entity.systemInfo.Role;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ public interface RoleService {
      * @param userId
      * @return
      */
-    List<SysRole> findRoleByUserId(Integer userId);
+    List<Role> findRoleByUserId(Integer userId);
 }

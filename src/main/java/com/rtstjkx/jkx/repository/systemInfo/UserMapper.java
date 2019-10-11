@@ -1,7 +1,9 @@
 package com.rtstjkx.jkx.repository.systemInfo;
 
-import com.rtstjkx.jkx.entity.systemInfo.SysUser;
+import com.rtstjkx.jkx.entity.systemInfo.User;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public interface UserMapper {
@@ -10,5 +12,11 @@ public interface UserMapper {
      * @param userAccount
      * @return
      */
-    SysUser findUserByAccount(String userAccount);
+    User findUserByAccount(String userAccount);
+
+    /**
+     * 查詢用戶列表
+     * @return
+     */
+    List<User> findUserList();
 }

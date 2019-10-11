@@ -1,8 +1,8 @@
 package com.rtstjkx.jkx.service.serviceImpl;
 
-import com.rtstjkx.jkx.entity.systemInfo.SysRole;
+import com.rtstjkx.jkx.entity.systemInfo.Role;
 import com.rtstjkx.jkx.repository.systemInfo.RoleMapper;
-import com.rtstjkx.jkx.service.systemInfo.RoleService;
+import com.rtstjkx.jkx.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +18,8 @@ public class RoleServiceImpl implements RoleService {
      * @return
      */
     @Override
-    public List<SysRole> findRoleByUserId(Integer userId) {
-        List<SysRole> roles = roleMapper.findRoleByUserId(userId);
+    public List<Role> findRoleByUserId(Integer userId) {
+        List<Role> roles = roleMapper.findRoleByUserId(userId);
         return roles;
     }
 }
