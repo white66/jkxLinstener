@@ -2,9 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.rtstjkx.jkx.repository.systemInfo.UserMapper">
     <sql id="allcolumn">
-       userId,userName,passWord,email,state,name,salt
+       userId,userName,passWord,email,state,name,salt,expiredDate,createTime
     </sql>
-    
+    <insert id="addUser" parameterType="com.rtstjkx.jkx.entity.systemInfo.User">
+        insert into sys_user(userName,passWord,email,state,name,salt,expiredDate,createTime)
+              values(#{userName},#{passWord},#{email},#{state},#{name},#{salt},#{expiredDate},#{createTime})
+    </insert>
+    <update id="updateUser" parameterType="com.rtstjkx.jkx.entity.systemInfo.User">
+        update sys_user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="null!=name and ''!=name">name= #{name},</if>
+            <if test="null!=userName and ''!=userName">userName=#{userName},</if>
+            <if test="null!=passWord and ''!=passWord">passWord=#{passWord},</if>
+            <if test="state>=0 and null!=state">state=#{state},</if>
+            <if test="null!=email and ''!=email">email=#{email},</if>
+            <if test="null!=expiredDate and ''!=expiredDate">expiredDate=#{expiredDate}</if>
+        </trim>
+        where userId= #{userId}
+    </update>
+    <delete id="delUser" parameterType="integer">
+        delete from sys_user where userId = #{userId}
+    </delete>
+
     <select id="findUserByAccount"  parameterType="java.util.HashMap" resultType="com.rtstjkx.jkx.entity.systemInfo.User">
         select <include refid="allcolumn"/>
               from sys_user

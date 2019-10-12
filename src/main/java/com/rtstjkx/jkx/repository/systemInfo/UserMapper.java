@@ -19,4 +19,25 @@ public interface UserMapper {
      * @return
      */
     List<User> findUserList();
+
+    /**
+     * 添加用户
+     * @param user
+     * @return
+     */
+    int addUser(User user);
+
+    /**
+     * 删除用户
+     * @param userId
+     * @return
+     */
+    int delUser(Integer userId);
+
+    /**
+     * 修改用户信息
+     * @param user
+     * @return
+     */
+    int updateUser(User user);
 }

@@ -13,4 +13,31 @@ public interface RoleMapper {
      * @return
      */
     List<Role> findRoleByUserId(Integer userId);
+
+    /**
+     * 查询角色列表
+     * @return
+     */
+    List<Role> roleList();
+
+    /**
+     * 添加角色
+     * @param role
+     * @return
+     */
+    int addRole(Role role);
+
+    /**
+     * 删除角色
+     * @param roleId
+     * @return
+     */
+    int delRole(Integer roleId);
+
+    /**
+     * 修改角色
+     * @param role
+     * @return
+     */
+    int updateRole(Role role);
 }

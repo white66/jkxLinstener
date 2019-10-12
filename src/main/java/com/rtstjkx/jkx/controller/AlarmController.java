@@ -1,5 +1,6 @@
 package com.rtstjkx.jkx.controller;
 
+import com.rtstjkx.jkx.bean.ResponseCode;
 import com.rtstjkx.jkx.service.serviceImpl.AlarmServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,15 +18,17 @@ import java.util.Map;
 public class AlarmController {
     @Autowired
     AlarmServiceImpl alarmServiceImpl;
+    @Autowired
+    ResponseCode responseCode;
 
     /**
      * 查询全区当前时间的告警总数
      * @return
      */
     @GetMapping("/get/alarms")
-    public Map<String, Object> selectAlarmList(){
+    public ResponseCode selectAlarmList(){
         Map<String, Object> alarmList = alarmServiceImpl.getAlarmList();
-        return alarmList;
+        return responseCode.success(alarmList);
     }
 
     /**
@@ -34,8 +37,8 @@ public class AlarmController {
      * @return
      */
     @GetMapping("/get/alarms/{PCS_Code}")
-    public Map<String,Object> selectAlarmByPCS(@PathVariable  String PCS_Code){
+    public ResponseCode selectAlarmByPCS(@PathVariable  String PCS_Code){
         Map<String,Object> alarmList = alarmServiceImpl.getAlarmByPCS(PCS_Code);
-        return alarmList;
+        return responseCode.success(alarmList);
     }
 }

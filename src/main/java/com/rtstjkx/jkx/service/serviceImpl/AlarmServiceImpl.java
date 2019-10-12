@@ -135,8 +135,4 @@ public class AlarmServiceImpl implements AlarmService{
         resultMap.put("jld",jld);
         return  resultMap;
     }
-
-    public static interface AuthService {
-        Set<String> findAuthByRoleIds(List<Integer> roleIds);
-    }
 }

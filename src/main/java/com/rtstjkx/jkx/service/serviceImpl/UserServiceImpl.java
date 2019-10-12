@@ -5,6 +5,7 @@ import com.rtstjkx.jkx.exception.LoginException;
 import com.rtstjkx.jkx.entity.systemInfo.User;
 import com.rtstjkx.jkx.repository.systemInfo.UserMapper;
 import com.rtstjkx.jkx.service.UserService;
+import com.rtstjkx.jkx.util.MD5Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -16,7 +17,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -81,7 +86,6 @@ public class UserServiceImpl implements UserService {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
     }
-
     /**
      * 查询用户列表
      * @return
@@ -90,5 +94,57 @@ public class UserServiceImpl implements UserService {
     public List<User> listUsers() {
        List<User> users = userMapper.findUserList();
         return users;
+    }
+    @Override
+    public Map<String,Object> addUser(User user) {
+        Map<String,Object> resultMap = new LinkedHashMap<>();
+        if(null!= userMapper.findUserByAccount(user.getUserName())){
+            resultMap.put("msg","用户名已存在！");
+            resultMap.put("user",user);
+            return resultMap;
+        }
+        user.setPassWord(MD5Utils.encrypt(user.getPassWord()));
+        int ref = userMapper.addUser(user);
+        if(ref>0){
+            resultMap.put("msg","添加成功！");
+            resultMap.put("user",user);
+        }else{
+            resultMap.put("msg","添加失败！");
+        }
+        return resultMap;
+    }
+    /**
+     * 根据用户ID删除用户
+     * @param userId
+     * @return
+     */
+    @Override
+    public Map<String, Object> delUser(Integer userId) {
+        Map<String,Object> resultMap = new LinkedHashMap<>();
+        int ref = userMapper.delUser(userId);
+        if(ref>0){
+            resultMap.put("msg","删除成功！");
+        }else{
+            resultMap.put("msg","添加失败！");
+        }
+        return resultMap;
+    }
+    /**
+     * 修改用户信息
+     * @param user
+     * @return
+     */
+    @Override
+    public Map<String, Object> updateUser(User user) {
+        Map<String,Object> resultMap = new LinkedHashMap<>();
+        user.setPassWord(MD5Utils.encrypt(user.getPassWord()));
+        int ref = userMapper.updateUser(user);
+        if(ref>0){
+            resultMap.put("msg","修改成功");
+            resultMap.put("user",user);
+        }else{
+            resultMap.put("msg","修改失败");
+        }
+        return resultMap;
     }
 }
