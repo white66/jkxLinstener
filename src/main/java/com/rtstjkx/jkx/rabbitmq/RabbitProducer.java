@@ -23,7 +23,6 @@ public class RabbitProducer implements RabbitTemplate.ConfirmCallback {
     }*/
     //处理消息
     public  void sendMsg(String msg){
-        System.out.println("发送消息！！！！");
         rabbitTemplate.convertAndSend(RabbitmqConfig.EXCHANGE_A,RabbitmqConfig.ROUTINGKEY_A,msg);
     }
 

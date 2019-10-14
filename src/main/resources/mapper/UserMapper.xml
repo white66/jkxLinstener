@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.rtstjkx.jkx.repository.systemInfo.UserMapper">
     <sql id="allcolumn">
-       userId,userName,passWord,email,state,name,salt,expiredDate,createTime
+       userId,userName,passWord,email,state,name,salt,expiredDate,createTime,phone,org
     </sql>
     <insert id="addUser" parameterType="com.rtstjkx.jkx.entity.systemInfo.User">
-        insert into sys_user(userName,passWord,email,state,name,salt,expiredDate,createTime)
-              values(#{userName},#{passWord},#{email},#{state},#{name},#{salt},#{expiredDate},#{createTime})
+        insert into sys_user(userName,passWord,email,state,name,salt,expiredDate,createTime,phone,org)
+              values(#{userName},#{passWord},#{email},#{state},#{name},#{salt},#{expiredDate},#{createTime},#{phone},#{org})
     </insert>
     <update id="updateUser" parameterType="com.rtstjkx.jkx.entity.systemInfo.User">
         update sys_user
@@ -16,7 +16,9 @@
             <if test="null!=passWord and ''!=passWord">passWord=#{passWord},</if>
             <if test="state>=0 and null!=state">state=#{state},</if>
             <if test="null!=email and ''!=email">email=#{email},</if>
-            <if test="null!=expiredDate and ''!=expiredDate">expiredDate=#{expiredDate}</if>
+            <if test="null!=expiredDate and ''!=expiredDate">expiredDate=#{expiredDate},</if>
+            <if test="null!=phone and ''!=phone">phone=#{phone},</if>
+            <if test="null!=org and ''!=org">org=#{org}</if>
         </trim>
         where userId= #{userId}
     </update>

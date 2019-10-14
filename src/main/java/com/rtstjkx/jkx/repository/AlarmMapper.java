@@ -21,4 +21,10 @@ public interface AlarmMapper {
      * @return
      */
     List<Alarm> getAlarmByPCS(String PCS_Code);
+
+    /**
+     * 插入数据到c_alarm表中
+     * @param params
+     */
+    void addAlarm(Map<String,Object> params);
 }

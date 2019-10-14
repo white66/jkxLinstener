@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 @Data
 public class WorkSite implements Serializable {
-    private Integer WS_ID;
     private String WS_Code;//监控箱编号
     private String WS_Name;//监控点名称
     private String WS_IP;//监控箱IP

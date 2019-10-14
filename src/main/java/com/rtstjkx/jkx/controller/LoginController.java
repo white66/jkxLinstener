@@ -7,10 +7,7 @@ import com.rtstjkx.jkx.service.serviceImpl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -25,7 +22,7 @@ public class LoginController {
      * @return
      */
     @PostMapping("/login")
-    public ResponseCode login(User user){
+    public ResponseCode login(@RequestBody User user){
         log.warn("进入登录....");
         String userName = user.getUserName();
         String passWord = user.getPassWord();

@@ -10,6 +10,9 @@
         <result column="WS_Code" property="WS_Code"/>
         <result column="alarmTime" property="alarmTime"/>
     </resultMap>
+    <insert id="addAlarm" parameterType="java.util.HashMap">
+        insert into c_alarm (WS_Code,BITValueA,BITValueB,BITValueC,alarmTime) values (#{WS_Code},#{BITValueA},#{BITValueB},#{BITValueC},#{alarmTime})
+    </insert>
     <!--查询当前时间向前推移20秒的告警数据-->
     <select id="getAlarmList"  resultMap="AlarmsMap">
         select ID,BITcode,WS_Code,BITValueA,BITValueB,BITValueC,AlarmTime

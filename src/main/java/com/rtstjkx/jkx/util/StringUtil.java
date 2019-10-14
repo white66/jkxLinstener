@@ -1,6 +1,5 @@
 package com.rtstjkx.jkx.util;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.util.StringUtils;
 
 public class StringUtil {
@@ -74,5 +73,14 @@ public class StringUtil {
             sb.append("0");
         }
         return sb.toString();
+    }
+    public static int fuTurnzheng(int number){
+        int resultNum=0;
+        if(number>=0){
+            resultNum = number;
+        }else if(number<0){
+            resultNum= 256+number;
+        }
+        return resultNum;
     }
 }

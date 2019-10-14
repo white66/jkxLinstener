@@ -1,5 +1,6 @@
 package com.rtstjkx.jkx.service.serviceImpl;
 
+import com.rtstjkx.jkx.repository.AlarmMapper;
 import com.rtstjkx.jkx.repository.SignalMapper;
 import com.rtstjkx.jkx.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,21 +18,21 @@ import java.util.Map;
 public class RabbitmqServiceImpl {
     @Autowired
     SignalMapper signalMapper;
+    @Autowired
+    AlarmMapper alarmMapper;
 
     public void saveMsg(String msg){
         Map<String,Object> params = new LinkedHashMap<>();
         String WS_Code = msg.substring(0,7);
         byte[] bytes = StringUtil.toByteArray(msg);
-        System.out.println("根据命令来存数据！！！");
         for ( byte by :bytes){
             System.out.print(by+" ");
         }
         params.put("WS_Code",WS_Code);
-        if(bytes[8]==-126){
+        if(StringUtil.fuTurnzheng(bytes[8])==130){//82命令，将接受的数据插入到c_dsignal表中
             Double DS_Jldy = (bytes[11]+bytes[12]*256)*0.1;
             Double DS_Jldl = (bytes[13]+bytes[14]*256)*0.1;
-            Double DS_Jldn = (bytes[15]+bytes[16]+(bytes[17]+bytes[18])*256)*0.1;
-            System.out.println("单片机发送的信号数据，把数据插入到c_dsignal表中");
+            Double DS_Jldn = (double)(StringUtil.fuTurnzheng(bytes[17])*256+StringUtil.fuTurnzheng(bytes[18]))*256+(StringUtil.fuTurnzheng(bytes[16])*256+StringUtil.fuTurnzheng(bytes[15]))*0.01;
             params.put("DS_Jldy",DS_Jldy);//电压值
             params.put("DS_Jldl",DS_Jldl);//电流值
             params.put("DS_Jldn",DS_Jldn);//电能
@@ -52,8 +53,13 @@ public class RabbitmqServiceImpl {
             params.put("DS_YL",bytes[40]);//雨量
             params.put("DS_FL",bytes[42]);//风量
             params.put("DS_DateTime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-            System.out.println("插入数据！！！！！");
             signalMapper.addDsignal(params);
+        }else if(StringUtil.fuTurnzheng(bytes[8])==135){//87命令，存数据到c_alarm表中
+            params.put("DS_ZTBYTEA",StringUtil.tenTurnTwo(bytes[11]));//状态字节1
+            params.put("DS_ZTBYTEB",StringUtil.tenTurnTwo(bytes[12]));//状态字节2
+            params.put("DS_ZTBYTEC",StringUtil.tenTurnTwo(bytes[13]));//状态字节3
+            params.put("AlarmTime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            alarmMapper.addAlarm(params);
         }
     }
 

@@ -10,9 +10,9 @@
     <update id="updateRole" parameterType="com.rtstjkx.jkx.entity.systemInfo.Role">
         update sys_user
           <trim prefix="set" suffixOverrides=",">
-              <if test="null!=role and ''!=role">role=#{role}</if>
-              <if test="null!=description and ''!=description">description=#{description}</if>
-              <if test="null!=available and ''!=available">available=#{available}</if>
+              <if test="null!=role and ''!=role">role=#{role},</if>
+              <if test="null!=description and ''!=description">description=#{description},</if>
+              <if test="null!=available and ''!=available">available=#{available},</if>
           </trim>
         where roleId =#{roleId}
     </update>
