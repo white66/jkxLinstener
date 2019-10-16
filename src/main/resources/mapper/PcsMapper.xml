@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rtstjkx.jkx.repository.PcsMapper">
+    <sql id="allcolumn">
+        ID,PCS_Code as pcsCode,PCS_Name as pcsName,PCS_AreaID as pcsAreaId
+    </sql>
+    <insert id="pcsAdd">
+        insert  into c_pcs (PCS_Code,PCS_Name,PCS_AreaID) values (#{pcsCode},#{pcsName},#{pcsAreaId})
+    </insert>
+    <update id="pcsUpdate">
+        update c_pcs set PCS_Code =#{pcsCode},PCS_Name=#{pcsName},pcsAreaID=#{pcsAreaID} where id =#{id}
+    </update>
+    <delete id="pcsDel" parameterType="integer">
+        delete from c_pcs where id = #{id}
+    </delete>
+
+    <select id="pcsList" resultType="com.rtstjkx.jkx.entity.PcsInformation">
+        select <include refid="allcolumn"/>
+                from c_pcs
+    </select>
+</mapper>
