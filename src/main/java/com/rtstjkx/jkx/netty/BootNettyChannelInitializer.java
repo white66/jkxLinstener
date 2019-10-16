@@ -18,8 +18,6 @@ public class BootNettyChannelInitializer<SocketChannel> extends ChannelInitializ
     BootNettyChannelInboundHandler bootNettyChannelInboundHandler;
     @Autowired
     MyDecoder myDecoder;
-    @Autowired
-    MyEncoder myEncoder;
     @Override
     protected void initChannel(Channel ch) throws Exception {
         // ChannelOutboundHandler，依照逆序执行

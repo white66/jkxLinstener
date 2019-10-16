@@ -1,5 +1,7 @@
 package com.rtstjkx.jkx.service;
 
+import com.rtstjkx.jkx.entity.PcsInformation;
+
 import java.util.Map;
 
 public interface AlarmService {
@@ -11,8 +13,9 @@ public interface AlarmService {
 
     /**
      *查询指定派出所下的站点告警总和
-     * @param PCS_Code
+     * @param alarm
+     * @param pcs
      * @return
      */
-    Map<String,Object> getAlarmByPCS(String PCS_Code);
+    Map<String,Object> getAlarmByPCS(PcsInformation pcs);
 }

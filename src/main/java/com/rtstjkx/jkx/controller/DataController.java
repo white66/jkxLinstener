@@ -23,8 +23,8 @@ public class DataController {
      * @param WS_Code
      * @return
      */
-    @GetMapping("/get/{WS_Code}/{pageNo}/{pageNum}")
-    public ResponseCode selectDataHistoryByCode(@PathVariable String WS_Code ,@PathVariable int pageSize,@PathVariable int pageNum){
+    @GetMapping("/get")
+    public ResponseCode selectDataHistoryByCode(@RequestBody String WS_Code ,@RequestBody int pageSize,@RequestBody int pageNum){
         PageHelper.startPage(pageNum,pageSize);
         PageInfo<Dsignal> dataHistory = dataService.getDataHistory(WS_Code);
         return responseCode.success("查询成功",dataHistory);

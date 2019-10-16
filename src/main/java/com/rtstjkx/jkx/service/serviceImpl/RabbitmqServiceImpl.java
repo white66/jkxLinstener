@@ -38,17 +38,17 @@ public class RabbitmqServiceImpl {
             params.put("DS_Jldn",DS_Jldn);//电能
             params.put("DS_DC12dy",bytes[19]*0.1);//12V电压
             params.put("DS_DC24dy",(256+bytes[20])*0.1);//24V电压
-            params.put("DS_WD",(bytes[21]+bytes[22]*256)*0.1);//温度
-            params.put("DS_SD",(256+bytes[23]+bytes[24]*256)*0.1);//湿度
+            params.put("DS_WD",(StringUtil.fuTurnzheng(bytes[21]))*0.1);//温度
+            params.put("DS_SD",(StringUtil.fuTurnzheng(bytes[23])+StringUtil.fuTurnzheng(bytes[24])*256)*0.1);//湿度
             params.put("DS_ZYQX",bytes[25]);//左右倾斜
             params.put("DS_QHQX",bytes[26]);//前后倾斜
-            params.put("DS_GMADC",bytes[27]);//光敏
-            params.put("DS_SJADC",bytes[29]);//水浸
+            params.put("DS_GMADC",StringUtil.fuTurnzheng(bytes[27])+StringUtil.fuTurnzheng(bytes[28]));//光敏
+            params.put("DS_SJADC",bytes[29]*256+bytes[30]);//水浸
             params.put("DS_ZTBYTEA",StringUtil.tenTurnTwo(bytes[31]));//状态字节1
             params.put("DS_ZTBYTEB",StringUtil.tenTurnTwo(bytes[32]));//状态字节2
             params.put("DS_ZTBYTEC",StringUtil.tenTurnTwo(bytes[33]));//状态字节3
-            params.put("DS_PMA",bytes[34]);//PM2.5
-            params.put("DS_PMB",bytes[36]);//PM10
+            params.put("DS_PMA",StringUtil.fuTurnzheng(bytes[34]));//PM2.5
+            params.put("DS_PMB",StringUtil.fuTurnzheng(bytes[36]));//PM10
             params.put("DS_ZS",bytes[38]);//噪音
             params.put("DS_YL",bytes[40]);//雨量
             params.put("DS_FL",bytes[42]);//风量

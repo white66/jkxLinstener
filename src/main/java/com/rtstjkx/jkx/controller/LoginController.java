@@ -5,6 +5,7 @@ import com.rtstjkx.jkx.bean.ResponseCode;
 import com.rtstjkx.jkx.entity.systemInfo.User;
 import com.rtstjkx.jkx.service.serviceImpl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +49,6 @@ public class LoginController {
 
     /**
      * 未登录，shiro应重定向到登录界面，此处返回未登录状态信息由前端控制跳转页面
-     * create time: 2019/7/3 14:53
      * @return
      */
     @RequestMapping("/un_auth")

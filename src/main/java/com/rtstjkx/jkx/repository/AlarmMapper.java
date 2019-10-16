@@ -1,9 +1,9 @@
 package com.rtstjkx.jkx.repository;
 
 import com.rtstjkx.jkx.entity.Alarm;
+import com.rtstjkx.jkx.entity.PcsInformation;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +17,10 @@ public interface AlarmMapper {
 
     /**
      * 查询每个派出所下的站点告警总和
-     * @param PCS_Code
+     * @param pcs
      * @return
      */
-    List<Alarm> getAlarmByPCS(String PCS_Code);
+    List<Alarm> getAlarmByPCS(PcsInformation pcs);
 
     /**
      * 插入数据到c_alarm表中

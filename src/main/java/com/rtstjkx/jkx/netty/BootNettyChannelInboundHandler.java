@@ -2,6 +2,8 @@ package com.rtstjkx.jkx.netty;
 
 import com.rtstjkx.jkx.rabbitmq.RabbitProducer;
 import com.rtstjkx.jkx.util.StringUtil;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 
 import io.netty.channel.socket.SocketChannel;
@@ -34,26 +36,51 @@ public class BootNettyChannelInboundHandler extends ChannelInboundHandlerAdapter
      * @param msg
      */
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception, IOException
+    public void channelRead(ChannelHandlerContext ctx, Object msg)
     {
         SocketChannel channel = (SocketChannel) ctx.channel();
+        ByteBuf buff = Unpooled.buffer();//netty需要用ByteBuf传输
         //将字符串转成每两个字符加空格形式的字符串 7D 7D 21 3C C5 3B 0D 0D 7D 7D 25 3C
         String regex = "(.{2})";
         String input = msg.toString().replaceAll (regex, "$1 ");
         log.info(channel.localAddress().getHostString()+":  "+input);
         System.out.println ("服务端接受信息为： "+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " 接收到消息："+input);
         byte[] bytes = StringUtil.toByteArray(msg.toString());
-       /* for (byte byt : bytes){
+       for (byte byt : bytes){
             System.out.print(byt+" ");
-        }*/
+        }
         if(bytes.length>4&&bytes[4]==125&&bytes[5]==125&&bytes[bytes.length-1]==13&&bytes[bytes.length-2]==13){
-            double dy = (bytes[11]+bytes[12]*256)*0.1;
-            double dl = (bytes[13]+bytes[14]*256)*0.1;
-            System.out.println("电压值:"+dy+"  电流值:"+dl);
-            rabbitProducer.sendMsg(msg.toString());
+            if(StringUtil.fuTurnzheng(bytes[8])==130){
+                int Sum =0;
+                for(int i=4;i<bytes.length-4;i++){
+                    Sum=Sum+StringUtil.fuTurnzheng(bytes[i]);
+                }
+                int SumL = StringUtil.fuTurnzheng(bytes[bytes.length-3])+StringUtil.fuTurnzheng(bytes[bytes.length-4]*256);
+                if(Sum==SumL){
+                    System.out.println("校验成功，数据有效");
+                    byte[] backMeg = StringUtil.backMag(0X82);
+                    buff.writeBytes(backMeg);
+                    ctx.writeAndFlush(buff);
+                    rabbitProducer.sendMsg(msg.toString());
+                }
+            }
+        }else if(StringUtil.fuTurnzheng(bytes[8])==135){
+            int Sum =0;
+            for(int i=4;i<bytes.length-4;i++){
+                Sum=Sum+StringUtil.fuTurnzheng(bytes[i]);
+            }
+            System.out.println("检验值："+Sum);
+            int SumL = StringUtil.fuTurnzheng(bytes[bytes.length-3])+StringUtil.fuTurnzheng(bytes[bytes.length-4]*256);
+            System.out.println("校验和："+SumL);
+            if(Sum==SumL){
+                byte[] backMeg = StringUtil.backMag(0X87);
+                buff.writeBytes(backMeg);
+                ctx.writeAndFlush(buff);
+                rabbitProducer.sendMsg(msg.toString());
+            }
+        }
             //回应客户端
             //ctx.writeAndFlush("I got it");
-        }
     }
 
     /**

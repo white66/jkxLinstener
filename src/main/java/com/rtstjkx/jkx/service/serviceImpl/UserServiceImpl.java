@@ -115,17 +115,17 @@ public class UserServiceImpl implements UserService {
     }
     /**
      * 根据用户ID删除用户
-     * @param userId
+     * @param user
      * @return
      */
     @Override
-    public Map<String, Object> delUser(Integer userId) {
+    public Map<String, Object> delUser(User user) {
         Map<String,Object> resultMap = new LinkedHashMap<>();
-        int ref = userMapper.delUser(userId);
+        int ref = userMapper.delUser(user);
         if(ref>0){
             resultMap.put("msg","删除成功！");
         }else{
-            resultMap.put("msg","添加失败！");
+            resultMap.put("msg","删除失败！");
         }
         return resultMap;
     }

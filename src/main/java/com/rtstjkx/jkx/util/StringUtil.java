@@ -83,4 +83,27 @@ public class StringUtil {
         }
         return resultNum;
     }
+
+    /**
+     * 接受下位机的数据检验成功后返回一条数据
+     * @param order
+     * @return
+     */
+    public static byte[] backMag(int order ){
+        byte[] backMsg = new byte[13];
+        backMsg[0]=0X7D;
+        backMsg[1]=0X7D;
+        backMsg[2]=0X0E;
+        backMsg[3]=0X01;
+        backMsg[4]= (byte)order;
+        backMsg[5]=0X00;
+        backMsg[6]=0X02;
+        backMsg[7]= (byte) 0XAA;
+        backMsg[8]=0X55;
+        backMsg[9]=0X02;
+        backMsg[10]= (byte) 0X8C;
+        backMsg[11]=0X0D;
+        backMsg[12]=0X0D;
+        return backMsg;
+    }
 }

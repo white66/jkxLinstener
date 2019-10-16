@@ -17,13 +17,13 @@
     <select id="getAlarmList"  resultMap="AlarmsMap">
         select ID,BITcode,WS_Code,BITValueA,BITValueB,BITValueC,AlarmTime
               from c_alarm
-              where AlarmTime>DATE_SUB(NOW(), INTERVAL 20 SECOND)
+              where AlarmTime>DATE_SUB(NOW(), INTERVAL 3000 SECOND)
     </select>
-    <select id="getAlarmByPCS" resultMap="AlarmsMap">
-        select c_alarm.ID,c_alarm.BITcode,c_alarm.WS_Code,c_alarm.BITValueA,c_alarm.BITValueB,c_alarm.BITValueC,c_alarm.AlarmTime
-			from c_worksite
-			LEFT JOIN c_pcs ON c_worksite.WS_SysCode = c_pcs.PCS_Code
-			RIGHT JOIN c_alarm ON c_worksite.WS_Code = c_alarm.WS_Code
-            where c_pcs.PCS_Code= #{PCS_Code} AND AlarmTime>DATE_SUB(NOW(), INTERVAL 20 SECOND)
+    <select id="getAlarmByPCS"  parameterType="com.rtstjkx.jkx.entity.PcsInformation" resultMap="AlarmsMap">
+        select a.ID as ID,a.BITcode as BITCode,a.WS_Code as WS_Code,a.BITValueA as BITValueA,a.BITValueB as BITValueB,a.BITValueC as BITValueC,a.AlarmTime as alarmTime
+			from c_worksite w
+			LEFT JOIN c_pcs p ON w.WS_SysCode = p.PCS_Code
+			RIGHT JOIN c_alarm a ON w.WS_Code = a.WS_Code
+            where p.PCS_Code= #{pcsCode} AND AlarmTime>DATE_SUB(NOW(), INTERVAL 3000 SECOND)
     </select>
 </mapper>

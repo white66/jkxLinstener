@@ -1,6 +1,7 @@
 package com.rtstjkx.jkx.service.serviceImpl;
 
 import com.rtstjkx.jkx.entity.Alarm;
+import com.rtstjkx.jkx.entity.PcsInformation;
 import com.rtstjkx.jkx.repository.AlarmMapper;
 import com.rtstjkx.jkx.service.AlarmService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,11 +77,12 @@ public class AlarmServiceImpl implements AlarmService{
 
     /**
      * 查询指定派出所下的站点告警总和
-     * @param PCS_Code
+     * @param pcs
+     * @param pcs
      * @return
      */
     @Override
-    public Map<String,Object> getAlarmByPCS(String PCS_Code){
+    public Map<String,Object> getAlarmByPCS(PcsInformation pcs){
         int zyqx = 0;//左右倾斜告警数初始值
         int qhqx = 0;//前后倾斜告警数初始值
         int sj = 0;//水浸告警数初始值
@@ -91,11 +93,11 @@ public class AlarmServiceImpl implements AlarmService{
         int jldgj = 0;//交流电告警
         int jld = 0;//交流掉电
         Map<String, Object> resultMap = new LinkedHashMap<>();
-        List<Alarm> alarmList = alarmMapper.getAlarmByPCS(PCS_Code);
+        List<Alarm> alarmList = alarmMapper.getAlarmByPCS(pcs);
 
-        for (Alarm alarm :alarmList) {
-            char[] bitValueB = alarm.getBITValueB().toCharArray();
-            char[] bitValueC = alarm.getBITValueC().toCharArray();
+        for (Alarm alarms :alarmList) {
+            char[] bitValueB = alarms.getBITValueB().toCharArray();
+            char[] bitValueC = alarms.getBITValueC().toCharArray();
             if(bitValueB[1]=='1'){//根据第二个状态字节的第二位数值判断左右倾斜告警 1表示告警 0表示正常
                 zyqx=zyqx+1;
             }

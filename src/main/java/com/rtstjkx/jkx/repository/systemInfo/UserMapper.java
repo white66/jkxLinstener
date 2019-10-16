@@ -29,10 +29,10 @@ public interface UserMapper {
 
     /**
      * 删除用户
-     * @param userId
+     * @param user
      * @return
      */
-    int delUser(Integer userId);
+    int delUser(User user);
 
     /**
      * 修改用户信息

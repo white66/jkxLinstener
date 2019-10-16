@@ -106,6 +106,7 @@ public class ShiroConfig {
         RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
         redisSessionDAO.setRedisManager(redisManager());
         redisSessionDAO.setSessionIdGenerator(sessionIdGenerator());
+        //设置用户缓存过期时间位30分钟
         redisSessionDAO.setExpire(1800);
         return redisSessionDAO;
     }
@@ -152,7 +153,7 @@ public class ShiroConfig {
     public RedisCacheManager cacheManager() {
         RedisCacheManager redisCacheManager = new RedisCacheManager();
         redisCacheManager.setRedisManager(redisManager());
-        // 必须要设置主键名称，shiro-redis 插件用过这个缓存用户信息
+        // 必须要设置主键名称，shiro-redis 插件用这个缓存用户信息
         redisCacheManager.setPrincipalIdFieldName("userId");
         return redisCacheManager;
     }
