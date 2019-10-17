@@ -3,19 +3,19 @@
 <mapper namespace="com.rtstjkx.jkx.repository.AlarmMapper">
     <resultMap id="AlarmsMap" type="com.rtstjkx.jkx.entity.Alarm">
         <result column="ID" property="id"/>
-        <result column="BITValueA" property="BITValueA"/>
-        <result column="BITCode" property="BITCode"/>
-        <result column="BITValueB" property="BITValueB"/>
-        <result column="BITValueC" property="BITValueC"/>
-        <result column="WS_Code" property="WS_Code"/>
+        <result column="BITValueA" property="bITValueA"/>
+        <result column="BITCode" property="bITCode"/>
+        <result column="BITValueB" property="bITValueB"/>
+        <result column="BITValueC" property="bITValueC"/>
+        <result column="WS_Code" property="wsCode"/>
         <result column="alarmTime" property="alarmTime"/>
     </resultMap>
     <insert id="addAlarm" parameterType="java.util.HashMap">
-        insert into c_alarm (WS_Code,BITValueA,BITValueB,BITValueC,alarmTime) values (#{WS_Code},#{BITValueA},#{BITValueB},#{BITValueC},#{alarmTime})
+        insert into c_alarm (WS_Code,BITValueA,BITValueB,BITValueC,alarmTime) values (#{wsCode},#{bITValueA},#{bITValueB},#{bITValueC},#{alarmTime})
     </insert>
     <!--查询当前时间向前推移20秒的告警数据-->
     <select id="getAlarmList"  resultMap="AlarmsMap">
-        select ID,BITcode,WS_Code,BITValueA,BITValueB,BITValueC,AlarmTime
+        select ID,BITcode,WS_Code,BITValueA,BITValueB,BITValueC,alarmTime
               from c_alarm
               where AlarmTime>DATE_SUB(NOW(), INTERVAL 3000 SECOND)
     </select>

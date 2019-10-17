@@ -13,7 +13,7 @@ public interface AlarmService {
 
     /**
      *查询指定派出所下的站点告警总和
-     * @param alarm
+     * @param pcs
      * @param pcs
      * @return
      */

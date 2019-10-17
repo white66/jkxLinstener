@@ -10,4 +10,9 @@
         insert into c_dsignal(<include refid="column"/>) values(#{WS_Code},#{DS_Jldy},#{DS_Jldl},#{DS_Jldn},#{DS_DC12dy},#{DS_DC24dy},#{DS_WD},
         #{DS_SD},#{DS_ZYQX},#{DS_QHQX},#{DS_GMADC},#{DS_SJADC},#{DS_ZTBYTEA},#{DS_ZTBYTEB},#{DS_ZTBYTEC},#{DS_PMA},#{DS_PMB},#{DS_ZS},#{DS_YL},#{DS_FL},#{DS_DateTime})
     </insert>
+    <select id="signalList" resultMap="com.rtstjkx.jkx.repository.DataMapper.DsignalMap">
+        select <include refid="column"/>
+                from c_dsignal
+                where WS_Code = #{wsCode} and DS_DateTime>DATE_SUB(NOW(), INTERVAL 20 SECOND)
+    </select>
 </mapper>
