@@ -42,9 +42,9 @@ public class DataServiceImpl implements DataService{
         for (int i=0;i< dsignalsEnd.size();i++){
             Map<String ,Object> param = new LinkedHashMap<>();
             for(int j=0 ; j<dsignalsStart.size();j++){
-                if (dsignalsEnd.get(i).getWS_Code().equals(dsignalsStart.get(j).getWS_Code())){
-                    Double energy = dsignalsEnd.get(i).getDS_Jldn() - dsignalsStart.get(j).getDS_Jldn();
-                    param.put("WS_Code",dsignalsEnd.get(i).getWS_Code());
+                if (dsignalsEnd.get(i).getWsCode().equals(dsignalsStart.get(j).getWsCode())){
+                    Double energy = dsignalsEnd.get(i).getDsJldn() - dsignalsStart.get(j).getDsJldn();
+                    param.put("WS_Code",dsignalsEnd.get(i).getWsCode());
                     param.put("energyDay",energy);
                     param.put("dateTime",DS_DateTime);
                     refNum = dataMapper.insertEnergyDay(param);
@@ -73,9 +73,9 @@ public class DataServiceImpl implements DataService{
         for (int i=0;i< dsignalListEnd.size();i++){
             Map<String ,Object> param = new LinkedHashMap<>();
             for(int j=0 ; j<dsignalListStart.size();j++){
-                if (dsignalListEnd.get(i).getWS_Code().equals(dsignalListStart.get(j).getWS_Code())){
-                    Double energy = dsignalListEnd.get(i).getDS_Jldn() - dsignalListStart.get(j).getDS_Jldn();
-                    param.put("WS_Code",dsignalListEnd.get(i).getWS_Code());
+                if (dsignalListEnd.get(i).getWsCode().equals(dsignalListStart.get(j).getWsCode())){
+                    Double energy = dsignalListEnd.get(i).getDsJldn() - dsignalListStart.get(j).getDsJldn();
+                    param.put("WS_Code",dsignalListEnd.get(i).getWsCode());
                     param.put("energyMonth",energy);
                     param.put("dateTime",nowDate);
                     refNum = dataMapper.insertEnergyMonth(param);
@@ -102,9 +102,9 @@ public class DataServiceImpl implements DataService{
         for (int i=0;i< dsignalsEnd.size();i++){
             Map<String ,Object> param = new LinkedHashMap<>();
             for(int j=0 ; j<dsignalsStart.size();j++){
-                if (dsignalsEnd.get(i).getWS_Code().equals(dsignalsStart.get(j).getWS_Code())){
-                    Double energy = dsignalsEnd.get(i).getDS_Jldn() - dsignalsStart.get(j).getDS_Jldn();
-                    param.put("WS_Code",dsignalsEnd.get(i).getWS_Code());
+                if (dsignalsEnd.get(i).getWsCode().equals(dsignalsStart.get(j).getWsCode())){
+                    Double energy = dsignalsEnd.get(i).getDsJldn() - dsignalsStart.get(j).getDsJldn();
+                    param.put("WS_Code",dsignalsEnd.get(i).getWsCode());
                     param.put("energyYear",energy);
                     param.put("dateTime",nowDate);
                     refNum = dataMapper.insertEnergyYear(param);

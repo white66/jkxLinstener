@@ -1,7 +1,9 @@
 package com.rtstjkx.jkx.repository;
 
+import com.rtstjkx.jkx.entity.Dsignal;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -12,4 +14,6 @@ public interface SignalMapper {
      * @return
      */
     void addDsignal(Map<String,Object> params);
+
+    List<Dsignal> signalList(Dsignal dsignal);
 }

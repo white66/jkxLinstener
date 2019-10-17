@@ -18,6 +18,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 /**
@@ -26,9 +28,12 @@ import java.util.Date;
 @Component
 @ChannelHandler.Sharable
 @Slf4j
-public class BootNettyChannelInboundHandler extends ChannelInboundHandlerAdapter {
+public class BootNettyHandler extends ChannelInboundHandlerAdapter {
     @Autowired
     RabbitProducer rabbitProducer;
+    //  将当前客户端连接 存入map   实现控制设备下发 参数
+    public  static Map<String, ChannelHandlerContext> ctxMap = new LinkedHashMap<String, ChannelHandlerContext>();
+
     /**
      * 从客户端收到新的数据时，这个方法会在收到消息时被调用
      *
@@ -104,6 +109,14 @@ public class BootNettyChannelInboundHandler extends ChannelInboundHandlerAdapter
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws IOException
     {
         System.out.println("程序异常，断开客户端连接");
+        //获取客户端的请求地址  取到的值为客户端的 ip+端口号
+        InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
+        String clientIp = insocket.getAddress().getHostAddress();//设备请求地址（个人将设备的请求地址当作 map 的key）
+        if(ctxMap.get(clientIp)!=null){//如果不为空就剔除
+            ctxMap.remove(clientIp, ctx);
+        }else{//否则就将当前的设备ip+端口存进map  当做下发设备的标识的key
+        }
+
         cause.printStackTrace();
         ctx.close();//抛出异常，断开与客户端的连接
     }
@@ -117,9 +130,12 @@ public class BootNettyChannelInboundHandler extends ChannelInboundHandlerAdapter
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception, IOException
     {
-        SocketChannel channel = (SocketChannel) ctx.channel();
         InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
         String clientIp = insocket.getAddress().getHostAddress();
+        if(ctxMap.get(clientIp)!=null){//如果不为空就不存
+        }else{//否则就将当前的设备ip+端口存进map  当做下发设备的标识的key
+            ctxMap.put(clientIp, ctx);
+        }
         System.out.println("有一客户端链接到本服务端"+"  IP:" + clientIp);
         log.info(clientIp+"连接");
     }
@@ -136,6 +152,10 @@ public class BootNettyChannelInboundHandler extends ChannelInboundHandlerAdapter
         super.channelInactive(ctx);
         InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
         String clientIp = insocket.getAddress().getHostAddress();
+        if(ctxMap.get(clientIp)!=null){//如果不为空就剔除
+            ctxMap.remove(clientIp, ctx);
+        }else{//否则就将当前的设备ip+端口存进map  当做下发设备的标识的key
+        }
         ctx.close(); //断开连接时，必须关闭，否则造成资源浪费，并发量很大情况下可能造成宕机
         System.out.println("连接断开:"+clientIp);
         log.info(clientIp+"断开");

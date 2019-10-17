@@ -1,7 +1,6 @@
 package com.rtstjkx.jkx.netty;
 
 import com.rtstjkx.jkx.netty.coder.MyDecoder;
-import com.rtstjkx.jkx.netty.coder.MyEncoder;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +11,10 @@ import org.springframework.stereotype.Component;
  * @param <SocketChannel>
  */
 @Component
-public class BootNettyChannelInitializer<SocketChannel> extends ChannelInitializer<Channel> {
+public class BootNettyInitializer<SocketChannel> extends ChannelInitializer<Channel> {
 
     @Autowired
-    BootNettyChannelInboundHandler bootNettyChannelInboundHandler;
+    BootNettyHandler bootNettyHandler;
     @Autowired
     MyDecoder myDecoder;
     @Override
@@ -35,7 +34,7 @@ public class BootNettyChannelInitializer<SocketChannel> extends ChannelInitializ
         /**
          * 自定义ChannelInboundHandlerAdapter
          */
-        ch.pipeline().addLast(bootNettyChannelInboundHandler);
+        ch.pipeline().addLast(bootNettyHandler);
         System.out.println("信道初始化中....");
     }
 }

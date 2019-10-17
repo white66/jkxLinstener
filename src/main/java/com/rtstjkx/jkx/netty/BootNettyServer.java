@@ -21,7 +21,7 @@ public class BootNettyServer {
 
     private static final Logger LOG = LoggerFactory.getLogger(BootNettyServer.class);
     @Autowired
-    BootNettyChannelInitializer bootNettyChannelInitializer;
+    BootNettyInitializer bootNettyInitializer;
 
     public void run(int port) throws Exception {
 
@@ -59,7 +59,7 @@ public class BootNettyServer {
             /**
              * 设置 I/O处理类,主要用于网络I/O事件，记录日志，编码、解码消息
              */
-            serverBootstrap = serverBootstrap.childHandler(bootNettyChannelInitializer);
+            serverBootstrap = serverBootstrap.childHandler(bootNettyInitializer);
             /**
              * 绑定端口，同步等待成功
              */
