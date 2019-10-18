@@ -17,7 +17,6 @@ public class RabbitConsumer {
     @RabbitHandler
     @RabbitListener(queues = RabbitmqConfig.QUEUE_A)
     public void receiveProcess(String msg){
-        System.out.println("接收处理队列A当中的消息： " + msg);
         rabbitmqService.saveMsg(msg);
     }
 }

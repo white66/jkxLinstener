@@ -48,12 +48,9 @@ public class BootNettyHandler extends ChannelInboundHandlerAdapter {
         //将字符串转成每两个字符加空格形式的字符串 7D 7D 21 3C C5 3B 0D 0D 7D 7D 25 3C
         String regex = "(.{2})";
         String input = msg.toString().replaceAll (regex, "$1 ");
-        log.info(channel.localAddress().getHostString()+":  "+input);
+        log.info(channel.remoteAddress().getHostString()+":  "+input);
         System.out.println ("服务端接受信息为： "+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " 接收到消息："+input);
         byte[] bytes = StringUtil.toByteArray(msg.toString());
-       for (byte byt : bytes){
-            System.out.print(byt+" ");
-        }
         if(bytes.length>4&&bytes[4]==125&&bytes[5]==125&&bytes[bytes.length-1]==13&&bytes[bytes.length-2]==13){
             if(StringUtil.fuTurnzheng(bytes[8])==130){
                 int Sum =0;
@@ -136,7 +133,6 @@ public class BootNettyHandler extends ChannelInboundHandlerAdapter {
         }else{//否则就将当前的设备ip+端口存进map  当做下发设备的标识的key
             ctxMap.put(clientIp, ctx);
         }
-        System.out.println("有一客户端链接到本服务端"+"  IP:" + clientIp);
         log.info(clientIp+"连接");
     }
 
