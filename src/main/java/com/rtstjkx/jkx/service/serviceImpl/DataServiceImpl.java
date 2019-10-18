@@ -19,16 +19,6 @@ public class DataServiceImpl implements DataService{
     DataMapper dataMapper;
 
     /**
-     * 查询派出所下某一个站点的历史数据
-     * @param WS_Code
-     * @return
-     */
-    @Override
-    public PageInfo<Dsignal> getDataHistory(String WS_Code) {
-       return new PageInfo<Dsignal>(dataMapper.selectData(WS_Code));
-    }
-
-    /**
      * 定时任务查询电表每天的23点59分时交流电能和00点00分时交流电能之差作为每日能耗值，并存入到energyDay表中
      * @param DS_DateTime
      */

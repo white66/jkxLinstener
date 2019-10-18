@@ -10,13 +10,6 @@ import java.util.Map;
 @Component
 public interface DataMapper {
     /**
-     * 查询派出所下某个站点的历史数据
-     * @param WS_Code
-     * @return
-     */
-    List<Dsignal> selectData(String WS_Code);
-
-    /**
      * 统计报表时查询各站点的能耗值
      * @param DS_DateTime
      * @return

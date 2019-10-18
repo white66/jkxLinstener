@@ -19,8 +19,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <commons-collections4.version>4.1</commons-collections4.version>
-        <shiro-spring.version>1.4.0</shiro-spring.version>
-        <shiro-redis.version>3.1.0</shiro-redis.version>
     </properties>
 
     <dependencies>
@@ -33,11 +31,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <!--springboot中统计监控模块actuator-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <!--  netty依赖 springboot2.0自动导入版本-->
@@ -81,22 +74,7 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-            <version>${shiro-spring.version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.crazycake</groupId>
-            <artifactId>shiro-redis</artifactId>
-            <version>${shiro-redis.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
         <!--编写更少量的代码：使用apache commons工具类库:
         https://www.cnblogs.com/ITtangtang/p/3966955.html-->
         <!--apache.commons.lang3-->

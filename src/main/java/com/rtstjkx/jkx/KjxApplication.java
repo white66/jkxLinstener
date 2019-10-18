@@ -10,13 +10,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @MapperScan("com.rtstjkx.jkx.repository")
+@EnableScheduling
 @SpringBootApplication
-@EnableScheduling //开启定时任务
 public class KjxApplication implements CommandLineRunner {
 
     @Value("${netty.port}")
     private Integer  port;
-
     @Autowired
     BootNettyServer bootNettyServer;
     public static void main(String[] args) throws Exception {

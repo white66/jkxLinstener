@@ -23,7 +23,7 @@ public class RabbitmqServiceImpl {
 
     public void saveMsg(String msg){
         Map<String,Object> params = new LinkedHashMap<>();
-        String WS_Code = msg.substring(0,7);
+        String WS_Code = msg.substring(0,8);
         byte[] bytes = StringUtil.toByteArray(msg);
         for ( byte by :bytes){
             System.out.print(by+" ");

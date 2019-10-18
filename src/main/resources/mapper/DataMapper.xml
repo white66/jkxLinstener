@@ -7,7 +7,7 @@
         `DS_ZTBYTEB`,`DS_ZTBYTEC`,`DS_PMA`,`DS_PMB`,`DS_ZS`,`DS_YL`,`DS_FL`,
         `DS_YLA`,`DS_YLB`,`DS_YLC`,`DS_YLD`,`DS_DateTime`
     </sql>
-    <resultMap id="DsignalMap" type="com.rtstjkx.jkx.entity.Dsignal">
+    <resultMap id="Dsignal" type="com.rtstjkx.jkx.entity.Dsignal">
         <result property="dsID" column="DS_ID"/>
         <result property="wsCode" column="WS_Code"/>
         <result property="dsJldy" column="DS_Jldy"/>
@@ -31,30 +31,24 @@
         <result property="dsFL" column="DS_FL"/>
         <result property="dsDateTime" column="DS_DateTime"/>
     </resultMap>
-    <!--根据派出所下某个站点的历史数据 -->
-    <select id="selectData" resultMap="DsignalMap">
-        select <include refid="allColumns"/>
-              from c_dsignal where WS_Code = #{wsCode}
-              order by DS_DateTime desc
-    </select>
 
     <!--统计报表时查询各站点的交流电能值-->
-    <select id="selectEnergy" resultMap="DsignalMap">
+    <select id="selectEnergy" resultMap="Dsignal">
         SELECT c_dsignal.DS_ID,c_dsignal.WS_Code,c_dsignal.DS_Jldy,c_dsignal.DS_Jldl,c_dsignal.DS_Jldn,c_dsignal.DS_DateTime
               from c_dsignal
               where DS_DateTime= #{dsDateTime} GROUP BY WS_Code ORDER BY WS_Code
     </select>
 
     <!--统计每天的能耗值后插入到energyDay表中-->
-    <insert id="insertEnergyDay" parameterType="java.util.HashMap">
+    <insert id="insertEnergyDay" >
         insert into energyDay(WS_Code,energyDay,dateTime) values(#{WS_Code},#{energyDay},#{dateTime})
     </insert>
     <!--统计每月的能耗值后插入到energyMonth表中-->
-    <insert id="insertEnergyMonth" parameterType="java.util.HashMap">
+    <insert id="insertEnergyMonth">
         insert into energyMonth(WS_Code,energyMonth,dateTime) values(#{WS_Code},#{energyMonth},#{dateTime})
     </insert>
     <!--统计每年的能耗值后插入到energyYear表中-->
-    <insert id="insertEnergyYear" parameterType="java.util.HashMap">
+    <insert id="insertEnergyYear">
         insert into energyYear(WS_Code,energyYear,dateTime) values(#{WS_Code},#{energyYear},#{dateTime})
     </insert>
 </mapper>

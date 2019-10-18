@@ -6,11 +6,6 @@ import com.rtstjkx.jkx.entity.Dsignal;
 import java.util.List;
 import java.util.Map;
 public interface DataService {
-    /**
-     * 获取派出所站点的历史数据
-     * @return
-     */
-    PageInfo<Dsignal> getDataHistory(String WS_Code);
 
     /**
      * 每天23时59分统计每个站点的日能耗值
