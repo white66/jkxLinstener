@@ -70,7 +70,9 @@ public class StringUtil {
             sb.append("00000000");
         }
         while(sb.length()<8){
+            sb.reverse();
             sb.append("0");
+            sb.reverse();
         }
         return sb.toString();
     }

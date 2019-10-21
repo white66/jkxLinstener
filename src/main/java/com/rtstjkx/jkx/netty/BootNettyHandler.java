@@ -81,8 +81,6 @@ public class BootNettyHandler extends ChannelInboundHandlerAdapter {
                 rabbitProducer.sendMsg(msg.toString());
             }
         }
-            //回应客户端
-            //ctx.writeAndFlush("I got it");
     }
 
     /**

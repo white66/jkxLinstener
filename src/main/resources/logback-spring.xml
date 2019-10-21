@@ -45,7 +45,7 @@
 
 
     <!--需要将日志单独输出的包路径，将com.rtstjkx.jkx.netty.BootNettyChannelInboundHandler包的日志按照JOB_LOG的配置进行生成日志文件-->
-    <logger name="com.rtstjkx.jkx.netty.BootNettyChannelInboundHandler"  level="INFO" additivity="false">
+    <logger name="com.rtstjkx.jkx.netty.BootNettyHandler"  level="INFO" additivity="false">
         <appender-ref ref="JOB_LOG"/>
     </logger>
     <!--将项目所有的日志按照FILE的配置进行生成日志文件-->
