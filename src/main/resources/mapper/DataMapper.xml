@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rtstjkx.jkx.repository.DataMapper">
-    <resultMap id="Dsignal" type="com.rtstjkx.jkx.entity.Dsignal">
+<mapper namespace="com.rtstjkx.jkxlistener.repository.DataMapper">
+    <resultMap id="Dsignal" type="com.rtstjkx.jkxlistener.entity.Dsignal">
         <result property="dsID" column="DS_ID"/>
         <result property="wsCode" column="WS_Code"/>
         <result property="dsJldy" column="DS_Jldy"/>

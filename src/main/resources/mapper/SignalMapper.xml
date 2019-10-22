@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rtstjkx.jkx.repository.SignalMapper" >
+<mapper namespace="com.rtstjkx.jkxlistener.repository.SignalMapper" >
     <sql id="column">
         WS_Code,DS_Jldy,DS_Jldl,DS_Jldn,DS_DC12dy,DS_DC24dy,DS_WD,DS_SD,
         DS_ZYQX,DS_QHQX,DS_GMADC,DS_SJADC,DS_ZTBYTEA,DS_ZTBYTEB,DS_ZTBYTEC,DS_PMA,DS_PMB,DS_ZS,DS_YL,DS_FL,DS_DateTime
