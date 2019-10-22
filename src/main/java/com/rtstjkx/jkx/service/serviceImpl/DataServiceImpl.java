@@ -1,6 +1,5 @@
 package com.rtstjkx.jkx.service.serviceImpl;
 
-import com.github.pagehelper.PageInfo;
 import com.rtstjkx.jkx.entity.Dsignal;
 import com.rtstjkx.jkx.repository.DataMapper;
 import com.rtstjkx.jkx.service.DataService;
@@ -17,7 +16,6 @@ import java.util.Map;
 public class DataServiceImpl implements DataService{
     @Autowired
     DataMapper dataMapper;
-
     /**
      * 定时任务查询电表每天的23点59分时交流电能和00点00分时交流电能之差作为每日能耗值，并存入到energyDay表中
      * @param DS_DateTime
@@ -28,19 +26,15 @@ public class DataServiceImpl implements DataService{
         String DS_DateTimeStart = DS_DateTime+" 00:00:00";
         List<Dsignal> dsignalsEnd = dataMapper.selectEnergy(DS_DateTimeEnd);
         List<Dsignal> dsignalsStart = dataMapper.selectEnergy(DS_DateTimeStart);
-        int refNum = 0;
         for (int i=0;i< dsignalsEnd.size();i++){
             Map<String ,Object> param = new LinkedHashMap<>();
             for(int j=0 ; j<dsignalsStart.size();j++){
                 if (dsignalsEnd.get(i).getWsCode().equals(dsignalsStart.get(j).getWsCode())){
                     Double energy = dsignalsEnd.get(i).getDsJldn() - dsignalsStart.get(j).getDsJldn();
-                    param.put("WS_Code",dsignalsEnd.get(i).getWsCode());
+                    param.put("wsCode",dsignalsEnd.get(i).getWsCode());
                     param.put("energyDay",energy);
                     param.put("dateTime",DS_DateTime);
-                    refNum = dataMapper.insertEnergyDay(param);
-                    if(refNum>0){
-                        System.out.println("每日能耗数据插入成功！！！");
-                    }
+                    dataMapper.insertEnergyDay(param);
                 }
             }
         }
@@ -59,19 +53,15 @@ public class DataServiceImpl implements DataService{
         String startDate = dateTemple+"-01 00:00:00";
         List<Dsignal> dsignalListEnd = dataMapper.selectEnergy(endDate);
         List<Dsignal> dsignalListStart = dataMapper.selectEnergy(startDate);
-        int refNum = 0;
         for (int i=0;i< dsignalListEnd.size();i++){
             Map<String ,Object> param = new LinkedHashMap<>();
             for(int j=0 ; j<dsignalListStart.size();j++){
                 if (dsignalListEnd.get(i).getWsCode().equals(dsignalListStart.get(j).getWsCode())){
                     Double energy = dsignalListEnd.get(i).getDsJldn() - dsignalListStart.get(j).getDsJldn();
-                    param.put("WS_Code",dsignalListEnd.get(i).getWsCode());
+                    param.put("wsCode",dsignalListEnd.get(i).getWsCode());
                     param.put("energyMonth",energy);
                     param.put("dateTime",nowDate);
-                    refNum = dataMapper.insertEnergyMonth(param);
-                    if(refNum>0){
-                        System.out.println("每月能耗数据插入成功！！！");
-                    }
+                    dataMapper.insertEnergyMonth(param);
                 }
             }
         }
@@ -88,19 +78,15 @@ public class DataServiceImpl implements DataService{
         String startDate = dateTemple+"-01-01 00:00:00";
         List<Dsignal> dsignalsEnd = dataMapper.selectEnergy(endDate);
         List<Dsignal> dsignalsStart = dataMapper.selectEnergy(startDate);
-        int refNum = 0;
         for (int i=0;i< dsignalsEnd.size();i++){
             Map<String ,Object> param = new LinkedHashMap<>();
             for(int j=0 ; j<dsignalsStart.size();j++){
                 if (dsignalsEnd.get(i).getWsCode().equals(dsignalsStart.get(j).getWsCode())){
                     Double energy = dsignalsEnd.get(i).getDsJldn() - dsignalsStart.get(j).getDsJldn();
-                    param.put("WS_Code",dsignalsEnd.get(i).getWsCode());
+                    param.put("wsCode",dsignalsEnd.get(i).getWsCode());
                     param.put("energyYear",energy);
                     param.put("dateTime",nowDate);
-                    refNum = dataMapper.insertEnergyYear(param);
-                    if(refNum>0){
-                        System.out.println("每年能耗数据插入成功！！！");
-                    }
+                    dataMapper.insertEnergyYear(param);
                 }
             }
         }

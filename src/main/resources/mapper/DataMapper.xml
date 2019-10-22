@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.rtstjkx.jkx.repository.DataMapper">
-    <sql id="allColumns">
-        `DS_ID`,`WS_Code`,`DS_Jldy` ,`DS_Jldl`,`DS_Jldn`,`DS_DC12dy`,`DS_DC24dy`,
-        `DS_WD`,`DS_SD`,`DS_ZYQX`,`DS_QHQX`,`DS_GMADC`,`DS_SJADC`,`DS_ZTBYTEA`,
-        `DS_ZTBYTEB`,`DS_ZTBYTEC`,`DS_PMA`,`DS_PMB`,`DS_ZS`,`DS_YL`,`DS_FL`,
-        `DS_YLA`,`DS_YLB`,`DS_YLC`,`DS_YLD`,`DS_DateTime`
-    </sql>
     <resultMap id="Dsignal" type="com.rtstjkx.jkx.entity.Dsignal">
         <result property="dsID" column="DS_ID"/>
         <result property="wsCode" column="WS_Code"/>
@@ -41,14 +35,14 @@
 
     <!--统计每天的能耗值后插入到energyDay表中-->
     <insert id="insertEnergyDay" >
-        insert into energyDay(WS_Code,energyDay,dateTime) values(#{WS_Code},#{energyDay},#{dateTime})
+        insert into energyDay(WS_Code,energyDay,dateTime) values(#{wsCode},#{energyDay},#{dateTime})
     </insert>
     <!--统计每月的能耗值后插入到energyMonth表中-->
     <insert id="insertEnergyMonth">
-        insert into energyMonth(WS_Code,energyMonth,dateTime) values(#{WS_Code},#{energyMonth},#{dateTime})
+        insert into energyMonth(WS_Code,energyMonth,dateTime) values(#{wsCode},#{energyMonth},#{dateTime})
     </insert>
     <!--统计每年的能耗值后插入到energyYear表中-->
     <insert id="insertEnergyYear">
-        insert into energyYear(WS_Code,energyYear,dateTime) values(#{WS_Code},#{energyYear},#{dateTime})
+        insert into energyYear(WS_Code,energyYear,dateTime) values(#{wsCode},#{energyYear},#{dateTime})
     </insert>
 </mapper>
