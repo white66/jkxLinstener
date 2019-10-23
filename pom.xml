@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.rtstjkx</groupId>
     <artifactId>kjx</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT-listener</version>
     <name>kjx</name>
     <packaging>jar</packaging>
     <description>Demo project for Spring Boot</description>
