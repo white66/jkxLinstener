@@ -14,6 +14,6 @@ public class EnergyDay implements Serializable {
     private String wsCode;//监控箱编号
     private Float energyDay;//每天的能耗值
     private Date dateTime;//日期（年、月、日）
-    private String PCS_Code;//派出所编号
-    private String PCS_Name;//派出所名称
+    private Integer pcsCode;//派出所编号
+    private String pcsName;//派出所名称
 }

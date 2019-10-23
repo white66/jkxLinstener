@@ -35,14 +35,14 @@
 
     <!--统计每天的能耗值后插入到energyDay表中-->
     <insert id="insertEnergyDay" >
-        insert into energyDay(WS_Code,energyDay,dateTime) values(#{wsCode},#{energyDay},#{dateTime})
+        insert into energyDay(wsCode,energyDay,dateTime) values(#{wsCode},#{energyDay},#{dateTime})
     </insert>
     <!--统计每月的能耗值后插入到energyMonth表中-->
     <insert id="insertEnergyMonth">
-        insert into energyMonth(WS_Code,energyMonth,dateTime) values(#{wsCode},#{energyMonth},#{dateTime})
+        insert into energyMonth(wsCode,energyMonth,dateTime) values(#{wsCode},#{energyMonth},#{dateTime})
     </insert>
     <!--统计每年的能耗值后插入到energyYear表中-->
     <insert id="insertEnergyYear">
-        insert into energyYear(WS_Code,energyYear,dateTime) values(#{wsCode},#{energyYear},#{dateTime})
+        insert into energyYear(wsCode,energyYear,dateTime) values(#{wsCode},#{energyYear},#{dateTime})
     </insert>
 </mapper>

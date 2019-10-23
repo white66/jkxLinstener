@@ -20,7 +20,7 @@ public class WorkSite implements Serializable {
     private String wsState;//状态
     private Integer pageSize;
     private Integer pageNum;
-    private String pcsCode;//派出所编号
+    private Integer pcsCode;//派出所编号
     private String pcsName;//派出所名称
-    private String pcsAreaId;//派出所区域ID
+    private Integer pcsAreaId;//派出所区域ID
 }
