@@ -53,11 +53,18 @@ public class RabbitmqServiceImpl {
             params.put("dsDateTime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             signalMapper.addDsignal(params);
         }else if(StringUtil.fuTurnzheng(bytes[8])==135){//87命令，存数据到c_alarm表中
-            params.put("bITValueA",StringUtil.tenTurnTwo(bytes[11]));//状态字节1
-            params.put("bITValueB",StringUtil.tenTurnTwo(bytes[12]));//状态字节2
-            params.put("bITValueC",StringUtil.tenTurnTwo(bytes[13]));//状态字节3
-            params.put("alarmTime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-            alarmMapper.addAlarm(params);
+            String bitA = StringUtil.tenTurnTwo(bytes[11]);
+            String bitB = StringUtil.tenTurnTwo(bytes[12]);
+            String bitC = StringUtil.tenTurnTwo(bytes[13]);
+            String bitBTemp = bitB.substring(0,3);
+            if(bitBTemp.contains("1")||bitC.contains("1")){
+                params.put("bITValueA",bitA);//状态字节1
+                params.put("bITValueB",bitB);//状态字节2
+                params.put("bITValueC",bitC);//状态字节3
+                params.put("alarmTime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                params.put("state",0);
+                alarmMapper.addAlarm(params);
+            }
         }
     }
 

@@ -1,6 +1,8 @@
 package com.rtstjkx.jkxlistener.util;
 
+import com.rtstjkx.jkxlistener.entity.Dsignal;
 import org.springframework.util.StringUtils;
+
 
 public class StringUtil {
     /**
@@ -92,20 +94,65 @@ public class StringUtil {
      * @return
      */
     public static byte[] backMag(int order ){
-        byte[] backMsg = new byte[13];
-        backMsg[0]=0X7D;
-        backMsg[1]=0X7D;
-        backMsg[2]=0X0E;
-        backMsg[3]=0X01;
-        backMsg[4]= (byte)order;
-        backMsg[5]=0X00;
-        backMsg[6]=0X02;
-        backMsg[7]= (byte) 0XAA;
-        backMsg[8]=0X55;
-        backMsg[9]=0X02;
-        backMsg[10]= (byte) 0X8C;
-        backMsg[11]=0X0D;
-        backMsg[12]=0X0D;
-        return backMsg;
+        byte[] bytes = new byte[13];
+        int sum=0;
+        bytes[0]=0X7D;
+        bytes[1]=0X7D;
+        bytes[2]=0X0E;
+        bytes[3]=0X01;
+        bytes[4]=(byte)order;
+        bytes[5]=0X00;
+        bytes[6]=0X02;
+        bytes[7]=(byte)0XAA;
+        bytes[8]=0X55;
+        //求校验和
+        for(int i=0;i<9;i++){
+            sum+=(long)bytes[i]>=0?(long)bytes[i]:((long)bytes[i]+256);
+        }
+        byte[] by = int2bytes(sum);
+        bytes[9]=by[0];
+        bytes[10]=by[1];
+        bytes[11]=0X0D;
+        bytes[12]=0X0D;
+        return bytes;
+    }
+    //10进制转byte[],2字节
+    public static byte[] int2bytes(int n) {
+        int temp1 = 0;
+        int  temp2= 0;
+        byte[] hex = new byte[2];
+        if(n < 256){
+            hex[1] = (byte) n;
+        } else {
+            temp1 = n & 0xff;
+            hex[1] = (byte)temp1;//高位
+            temp2 = n >> 8;
+            hex[0] = (byte)temp2;//低位
+        }
+        return hex;
+    }
+    public static byte[] orderMsg(Dsignal dsignal){
+        byte[] bytes = new byte[14];
+        int sum=0;
+        bytes[0]=0X7D;
+        bytes[1]=0X7D;
+        bytes[2]=0X0E;
+        bytes[3]=0X01;
+        bytes[4]=(byte)0X84;
+        bytes[5]=0X00;
+        bytes[6]=0X03;
+        bytes[7]=int2bytes(Integer.parseInt(dsignal.getDsZTBYTEA(),2))[1];
+        bytes[8]=int2bytes(Integer.parseInt(dsignal.getDsZTBYTEB(),2))[1];
+        bytes[9]=int2bytes(Integer.parseInt(dsignal.getDsZTBYTEC(),2))[1];
+        //求校验和
+        for(int i=0;i<10;i++){
+            sum+=(long)bytes[i]>=0?(long)bytes[i]:((long)bytes[i]+256);
+        }
+        byte[] by = int2bytes(sum);
+        bytes[10]=by[0];
+        bytes[11]=by[1];
+        bytes[12]=0X0D;
+        bytes[13]=0X0D;
+        return bytes;
     }
 }

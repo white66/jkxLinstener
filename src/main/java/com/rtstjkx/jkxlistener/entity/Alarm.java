@@ -15,5 +15,6 @@ public class Alarm implements Serializable {
     private String wsCode;//监控箱编号
     private String bITValueB;//状态字节2
     private String bITValueC;//状态字节3
-    private Date alarmTime;//告警时间
+    private String alarmTime;//告警时间
+    private String state;//告警状态/处理or未处理
 }
