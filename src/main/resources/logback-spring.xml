@@ -11,8 +11,8 @@
     <appender name="JOB_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
-            <FileNamePattern>D://logs/job_log/job.log.%d{yyyy-MM-dd}.log</FileNamePattern>
-            <MaxHistory>30</MaxHistory>
+            <FileNamePattern>D://logs/job_log/job_%d{yyyy-MM-dd}_log</FileNamePattern>
+            <MaxHistory>60</MaxHistory>
         </rollingPolicy>
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <!-- 日志输出编码 -->
@@ -20,11 +20,24 @@
                 <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
                 <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
             </layout>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
         </encoder>
-        <!--日志文件最大的大小-->
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>10MB</MaxFileSize>
-        </triggeringPolicy>
+    </appender>
+    <!-- 配置下发命令日志输出至单独的日志文件中 -->
+    <appender name="ORDER_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>D://logs/order_log/job_%d{yyyy-MM-dd}_log</FileNamePattern>
+            <MaxHistory>60</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <!-- 日志输出编码 -->
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            </layout>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
     </appender>
     <!--控制台输出的日志每天生成日志文件的配置，以便于运维debug用-->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -47,6 +60,10 @@
     <!--需要将日志单独输出的包路径，将com.rtstjkx.jkxlistener.netty.BootNettyChannelInboundHandler包的日志按照JOB_LOG的配置进行生成日志文件-->
     <logger name="com.rtstjkx.jkxlistener.netty.BootNettyHandler" level="INFO" additivity="false">
         <appender-ref ref="JOB_LOG"/>
+    </logger>
+    <!--需要将日志单独输出的包路径，将com.rtstjkx.jkxlistener.controller包的日志按照ORDER_LOG的配置进行生成日志文件-->
+    <logger name="com.rtstjkx.jkxlistener.controller" level="INFO" additivity="false">
+        <appender-ref ref="ORDER_LOG"/>
     </logger>
     <!--将项目所有的日志按照FILE的配置进行生成日志文件-->
     <logger name="com.rtstjkx.jkxlistener" level="INFO" >

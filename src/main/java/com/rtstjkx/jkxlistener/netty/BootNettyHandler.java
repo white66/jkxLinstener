@@ -1,6 +1,9 @@
 package com.rtstjkx.jkxlistener.netty;
 
+import com.rtstjkx.jkxlistener.controller.OrderController;
+import com.rtstjkx.jkxlistener.entity.Order;
 import com.rtstjkx.jkxlistener.rabbitmq.RabbitProducer;
+import com.rtstjkx.jkxlistener.service.serviceImpl.OrderServiceImpl;
 import com.rtstjkx.jkxlistener.util.StringUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -18,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -94,7 +98,7 @@ public class BootNettyHandler extends ChannelInboundHandlerAdapter {
      * @param ctx
      */
     @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws IOException
+    public void channelReadComplete(ChannelHandlerContext ctx)
     {
         ctx.flush();
     }
@@ -106,19 +110,19 @@ public class BootNettyHandler extends ChannelInboundHandlerAdapter {
      * @param cause
      */
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws IOException
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
     {
         System.out.println("程序异常，断开客户端连接");
         //获取客户端的请求地址  取到的值为客户端的 ip+端口号
         InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
-        String clientIp = insocket.getAddress().getHostAddress();//设备请求地址（个人将设备的请求地址当作 map 的key）
+        String clientIp = insocket.getAddress().getHostAddress();//设备请求地址（个人将设备的IP地址当作 map 的key）
         if(ctxMap.get(clientIp)!=null){//如果不为空就剔除
             ctxMap.remove(clientIp, ctx.channel());
         }else{//否则就将当前的设备ip+端口存进map  当做下发设备的标识的key
         }
-
         cause.printStackTrace();
         ctx.close();//抛出异常，断开与客户端的连接
+        log.info(clientIp+"连接断开");
     }
 
     /**
@@ -128,7 +132,7 @@ public class BootNettyHandler extends ChannelInboundHandlerAdapter {
      * @throws Exception
      */
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception, IOException
+    public void channelActive(ChannelHandlerContext ctx)
     {
         InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
         String clientIp = insocket.getAddress().getHostAddress();
@@ -146,7 +150,7 @@ public class BootNettyHandler extends ChannelInboundHandlerAdapter {
      * @throws Exception
      */
     @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception, IOException
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception
     {
         super.channelInactive(ctx);
         InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();

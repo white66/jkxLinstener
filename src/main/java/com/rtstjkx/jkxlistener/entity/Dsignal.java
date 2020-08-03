@@ -37,4 +37,5 @@ public class Dsignal implements Serializable {
     private String dsYLD;//预留4
     private Date dsDateTime;//采集时间
     private String wsIp;//监控箱IP
+    private String operationType;//操作指令类型
 }
