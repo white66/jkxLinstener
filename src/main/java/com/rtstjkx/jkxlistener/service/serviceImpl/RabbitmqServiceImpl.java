@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.*;
 
 /**
  * 接受单片机数据根据不同的命令进行存储在不同的表
@@ -22,7 +22,7 @@ public class RabbitmqServiceImpl {
     AlarmMapper alarmMapper;
 
     public void saveMsg(String msg){
-        Map<String,Object> params = new LinkedHashMap<>();
+        Map<String,Object> params = new ConcurrentHashMap<>();
         String WS_Code = msg.substring(0,8);
         byte[] bytes = StringUtil.toByteArray(msg);
         for ( byte by :bytes){
