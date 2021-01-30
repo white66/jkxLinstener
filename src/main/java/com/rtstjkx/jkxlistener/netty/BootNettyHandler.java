@@ -1,9 +1,6 @@
 package com.rtstjkx.jkxlistener.netty;
 
-import com.rtstjkx.jkxlistener.controller.OrderController;
-import com.rtstjkx.jkxlistener.entity.Order;
 import com.rtstjkx.jkxlistener.rabbitmq.RabbitProducer;
-import com.rtstjkx.jkxlistener.service.serviceImpl.OrderServiceImpl;
 import com.rtstjkx.jkxlistener.util.StringUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
