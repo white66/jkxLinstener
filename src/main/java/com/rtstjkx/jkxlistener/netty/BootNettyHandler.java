@@ -44,6 +44,7 @@ public class BootNettyHandler extends ChannelInboundHandlerAdapter {
         SocketChannel channel = (SocketChannel) ctx.channel();
         ByteBuf buff = Unpooled.buffer();//netty需要用ByteBuf传输
         //将字符串转成每两个字符加空格形式的字符串 7D 7D 21 3C C5 3B 0D 0D 7D 7D 25 3C
+        ByteBuf byteBuf = (ByteBuf) msg;
         String regex = "(.{2})";
         String input = msg.toString().replaceAll(regex, "$1 ");
         log.info(channel.remoteAddress().getHostString() + ":  " + input);

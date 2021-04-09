@@ -11,18 +11,18 @@ import org.springframework.stereotype.Component;
  * @param <SocketChannel>
  */
 @Component
-public class BootNettyInitializer<SocketChannel> extends ChannelInitializer<Channel> {
+public class BootNettyInitializer<SocketChannel extends Channel> extends ChannelInitializer<SocketChannel> {
 
     @Autowired
     BootNettyHandler bootNettyHandler;
     @Autowired
     MyDecoder myDecoder;
     @Override
-    protected void initChannel(Channel ch) throws Exception {
+    protected void initChannel(SocketChannel ch){
         // ChannelOutboundHandler，依照逆序执行
         //ch.pipeline().addLast("encoder", myEncoder);
         // 属于ChannelInboundHandler，依照顺序执行
-        ch.pipeline().addLast("decoder", myDecoder);
+        ch.pipeline().addLast("decoder", myDecoder)
         /*ByteBuf delimiter = Unpooled.copiedBuffer("0D 0D".getBytes());
         //1024 是单条消息的最大长度，如果达到该长度后仍然没有找到分隔符就会抛出异常，这点大家要特别注意。delimiter就是我们的分隔符。
         ch.pipeline().addLast(new DelimiterBasedFrameDecoder(2048,false, delimiter));
@@ -34,7 +34,7 @@ public class BootNettyInitializer<SocketChannel> extends ChannelInitializer<Chan
         /**
          * 自定义ChannelInboundHandlerAdapter
          */
-        ch.pipeline().addLast(bootNettyHandler);
+        .addLast(bootNettyHandler);
         System.out.println("信道初始化中....");
     }
 }
